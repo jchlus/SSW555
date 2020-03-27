@@ -9,11 +9,19 @@ def dead(indi, individuals):
 
 #age they died at
 def died_at(indi, individuals):
+<<<<<<< HEAD
     if individuals[indi]['DEAT'] != 'N/A':
         death = individuals[indi]['DEAT']
         birth = individuals[indi]['BIRT']
         death_age = int((death - birth).days/365)
         return(death_age)
+=======
+    if('DEAT' in individuals[indi].keys()):
+        death = datetime.strptime(individuals[indi]['DEAT'], '%d %b %Y')
+        birth = datetime.strptime(individuals[indi]['BIRT'], '%d %b %Y')
+        death_age = int((death-(birth)).days/365)
+        return(int(death_age))
+>>>>>>> parent of f6bf970... Major fixes for tests
 
 #finds age and adds to individual dict
 def find_age(individuals): 
@@ -32,6 +40,7 @@ def find_age(individuals):
 #also adds "N/A" for values if not applicable
 def div_marr_ages(families, individuals):
     for indi in families:
+<<<<<<< HEAD
         marriage =  families[indi]['MARR']
         if ('DIV' in families[indi].keys()):
             divorced = families[indi]['DIV']
@@ -70,6 +79,16 @@ def div_marr_ages(families, individuals):
             individuals[indi]['CHILD'] = "N/A"
         if 'SPOUSE' not in individuals[indi].keys():
             individuals[indi]['SPOUSE'] = "N/A"
+=======
+        marriage =  datetime.strptime(families[indi]['MARR'], '%d %b %Y')
+        if ('DIV' in individuals[families[indi]['HUSB']].keys() or 'DIV' in individuals[families[indi]['WIFE']].keys()):
+            divorced = datetime.strptime(families[indi]['DIV'], '%d %b %Y')
+            individuals[families[indi]['HUSB']]['DIV_AGE'] = int((divorced-individuals[families[indi]['HUSB']]['BIRT']).days/365)
+            individuals[families[indi]['WIFE']]['DIV_AGE'] = int((divorced-individuals[families[indi]['WIFE']]['BIRT']).days/365)
+
+        individuals[families[indi]['HUSB']]['MARR_AGE'] = int((marriage-datetime.strptime(individuals[families[indi]['HUSB']]['BIRT'], '%d %b %Y')).days/365)
+        individuals[families[indi]['WIFE']]['MARR_AGE'] = int((marriage-datetime.strptime(individuals[families[indi]['WIFE']]['BIRT'], '%d %b %Y')).days/365)
+>>>>>>> parent of f6bf970... Major fixes for tests
     return(individuals)
 
 #keeping track of ages in dictionaries
